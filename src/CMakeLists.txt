@@ -1,7 +1,7 @@
 # Add source files
 set(SOURCE_FILES 
     main.cpp 
-    tuple.cpp  # Assuming tuple.cpp is part of the build
+    tuple.cpp
 )
 
 # Create executable
