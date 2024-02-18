@@ -4,20 +4,18 @@
 class Tuple
 {
 public:
-	Tuple(float x, float y, float z, float w);
-	~Tuple();
+    Tuple(float x, float y, float z, float w);
+	~Tuple() = default;
 
 	// Getter methods
-	float GetX() const;
-	float GetY() const;
-	float GetZ() const;
-	float GetW() const;
+	float GetX() const { return x_; }
+	float GetY() const { return y_; }
+	float GetZ() const { return z_; }
+	float GetW() const { return w_; }
 
 	bool IsPoint() const;
 	bool IsVector() const;
 
-
-	
 
 private:
 	float x_, y_, z_, w_;

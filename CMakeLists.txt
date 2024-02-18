@@ -13,3 +13,6 @@ add_subdirectory(external)
 # we're going to use gtest for testing
 add_subdirectory(tests)
 
+# create the main executable
+add_executable(ray_tracer src/main.cpp)
+target_link_libraries(ray_tracer ray_tracer_lib)

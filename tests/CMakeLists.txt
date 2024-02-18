@@ -4,8 +4,10 @@ add_executable(
   tuple_test
   tuple_test.cpp
 )
+
 target_link_libraries(
   tuple_test
+  ray_tracer_lib
   GTest::gtest_main
 )
 
