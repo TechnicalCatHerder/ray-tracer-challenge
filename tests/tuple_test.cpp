@@ -1,6 +1,8 @@
 #include "tuple.h"
 #include <gtest/gtest.h>
 
+#include "../../../../AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/math.h"
+
 TEST(TupleTest, PointTest) {
     Tuple test_point(3.0f, 2.0f, 5.0f, 1.0f);
 
@@ -157,12 +159,54 @@ TEST(TupleTest, TupleMultiplationTest) {
 }
 
 TEST(TupleTest, TupleDivisonTest) {
-    Tuple test_tuple = Tuple(3.0f, 2.0f, -5.0f, 2.0);
-    test_tuple = 2.0f / test_tuple;
+    Tuple test_tuple = Tuple(1.0f, -2.0f, 3.0f, -4.0f);
+    test_tuple = test_tuple / 2.0f;
 
-    ASSERT_FLOAT_EQ(test_tuple.GetX(), 1.5f); // Check x value
-    ASSERT_FLOAT_EQ(test_tuple.GetY(), 1.0f); // Check y value
-    ASSERT_FLOAT_EQ(test_tuple.GetZ(), -2.5f); // Check z value
-    ASSERT_FLOAT_EQ(test_tuple.GetW(), 1.0f); // Check w value
+    ASSERT_FLOAT_EQ(test_tuple.GetX(), 0.5f); // Check x value
+    ASSERT_FLOAT_EQ(test_tuple.GetY(), -1.0f); // Check y value
+    ASSERT_FLOAT_EQ(test_tuple.GetZ(), 1.5f); // Check z value
+    ASSERT_FLOAT_EQ(test_tuple.GetW(), -2.0f); // Check w value
+}
 
+TEST(TupleTest, TupleMagnitudeTest) {
+    Tuple my_vector = Vector(1.0f, 0.0f, 0.0f);
+    Tuple my_vector2 = Vector(0.0f, 1.0f, 0.0f);
+    Tuple my_vector3 = Vector(0.0f, 0.0f, 1.0f);
+    Tuple my_vector4 = Vector(1.0f, 2.0f, 3.0f);
+    Tuple my_vector5 = Vector(1.0f, 2.0f, 3.0f);
+
+    ASSERT_FLOAT_EQ(my_vector.Magnitude(), 1.0f);
+    ASSERT_FLOAT_EQ(my_vector2.Magnitude(), 1.0f);
+    ASSERT_FLOAT_EQ(my_vector3.Magnitude(), 1.0f);
+    ASSERT_FLOAT_EQ(my_vector4.Magnitude(), sqrtf(14));
+    ASSERT_FLOAT_EQ(my_vector5.Magnitude(), sqrtf(14));
+}
+
+TEST(TupleTest, TupleNormalizeTest) {
+    Tuple unit_vector = Vector(4.0f, 0.0f, 0.0f);
+    ASSERT_TRUE(Vector(1.0f, 0.0f, 0.0f) == unit_vector.Normalize());
+
+    Tuple unit_vector2 = Vector(1.0f, 2.0f, 3.0f);
+    Tuple norm_vector = unit_vector2.Normalize();
+    ASSERT_TRUE(norm_vector == Vector(0.26726f, 0.53452f, 0.80178f));
+    ASSERT_FALSE(norm_vector == Vector(4.9f, 0.53452f, 0.80178f));
+
+    Tuple unit_vector3 = Vector(1.0f, 2.0f, 3.0f);
+    ASSERT_FLOAT_EQ(unit_vector3.Normalize().Magnitude(), 1.0f);
+}
+
+TEST(TupleTest, TupleDotProductTest) {
+    Tuple my_vector = Vector(1, 2, 0);
+    float dot_product = my_vector.DotProduct(Vector(2, 3, 0));
+
+    ASSERT_FLOAT_EQ(dot_product, 8.0f);
+}
+
+TEST(TupleTest, TupleCrossProductTest) {
+    Tuple vector1 = Vector(1,2,3);
+    Tuple vector2 = Vector(2,3,4);
+
+    ASSERT_TRUE(vector1.CrossProduct(vector2) == Vector(-1,2,-1));
+    ASSERT_TRUE(vector2.CrossProduct(vector1) == Vector(1,-2,1));
+    ASSERT_FALSE(vector2.CrossProduct(vector1) == Vector(1,-2,6));
 }
