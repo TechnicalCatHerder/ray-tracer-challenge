@@ -1,5 +1,9 @@
 #include "tuple.h"
+#include "environment.h"
+#include "projectile.h"
+#include "cannon.h"
 #include <gtest/gtest.h>
+#include <iostream>
 
 #include "../../../../AppData/Local/Programs/CLion/bin/mingw/x86_64-w64-mingw32/include/math.h"
 
@@ -52,18 +56,18 @@ TEST(TupleTest, CreateVectorTest) {
 }
 
 TEST(TupleTest, TupleAdditionTest) {
-    Tuple test_point = Point(3.0f, 2.0f, 5.0f);
-    Tuple test_vector = Vector(3.0f, 2.0f, 5.0f);
-    Tuple my_tuple = test_point + test_vector;
+    Tuple point_add = Point(3.0f, 2.0f, 5.0f);
+    Tuple vector_add = Vector(3.0f, 2.0f, 5.0f);
+    Tuple point_vector_sum = point_add + vector_add;
 
 
-    ASSERT_FLOAT_EQ(my_tuple.GetX(), 6.0f); // Check x value
-    ASSERT_FLOAT_EQ(my_tuple.GetY(), 4.0f); // Check y value
-    ASSERT_FLOAT_EQ(my_tuple.GetZ(), 10.0f); // Check z value
-    ASSERT_FLOAT_EQ(my_tuple.GetW(), 1.0f); // Check w value
+    ASSERT_FLOAT_EQ(point_vector_sum.GetX(), 6.0f); // Check x value
+    ASSERT_FLOAT_EQ(point_vector_sum.GetY(), 4.0f); // Check y value
+    ASSERT_FLOAT_EQ(point_vector_sum.GetZ(), 10.0f); // Check z value
+    ASSERT_FLOAT_EQ(point_vector_sum.GetW(), 1.0f); // Check w value
 
-    ASSERT_TRUE(my_tuple.IsPoint());
-    ASSERT_FALSE(my_tuple.IsVector());
+    ASSERT_TRUE(point_vector_sum.IsPoint());
+    ASSERT_FALSE(point_vector_sum.IsVector());
 }
 
 TEST(TupleTest, PointSubtractionTest) {
@@ -142,20 +146,21 @@ TEST(TupleTest, TupleNegationTest) {
 }
 
 TEST(TupleTest, TupleMultiplationTest) {
-    Tuple test_tuple = Tuple(3.0f, 2.0f, -5.0f, 2.0);
-    test_tuple = 2.0f * test_tuple;
+    Tuple vector_multiplacation1 = Vector(3.0f, 2.0f, -5.0f);
+    vector_multiplacation1 = vector_multiplacation1 * 2.0f;
 
-    ASSERT_FLOAT_EQ(test_tuple.GetX(), 6.0f); // Check x value
-    ASSERT_FLOAT_EQ(test_tuple.GetY(), 4.0f); // Check y value
-    ASSERT_FLOAT_EQ(test_tuple.GetZ(), -10.0f); // Check z value
-    ASSERT_FLOAT_EQ(test_tuple.GetW(), 4.0f); // Check w value
+    ASSERT_FLOAT_EQ(vector_multiplacation1.GetX(), 6.0f); // Check x value
+    ASSERT_FLOAT_EQ(vector_multiplacation1.GetY(), 4.0f); // Check y value
+    ASSERT_FLOAT_EQ(vector_multiplacation1.GetZ(), -10.0f); // Check z value
+    ASSERT_FLOAT_EQ(vector_multiplacation1.GetW(), 0.0f); // Check w value
 
-    test_tuple = 0.5f * test_tuple;
+    Tuple vector_multiplacation2 = Vector(3.0f, 2.0f, -5.0f);
+    vector_multiplacation2 = vector_multiplacation2 * 2.0f;
 
-    ASSERT_FLOAT_EQ(test_tuple.GetX(), 3.0f); // Check x value
-    ASSERT_FLOAT_EQ(test_tuple.GetY(), 2.0f); // Check y value
-    ASSERT_FLOAT_EQ(test_tuple.GetZ(), -5.0f); // Check z value
-    ASSERT_FLOAT_EQ(test_tuple.GetW(), 2.0f); // Check w value
+    ASSERT_FLOAT_EQ(vector_multiplacation2.GetX(), 6.0f); // Check x value
+    ASSERT_FLOAT_EQ(vector_multiplacation2.GetY(), 4.0f); // Check y value
+    ASSERT_FLOAT_EQ(vector_multiplacation2.GetZ(), -10.0f); // Check z value
+    ASSERT_FLOAT_EQ(vector_multiplacation2.GetW(), 0.0f); // Check w value
 }
 
 TEST(TupleTest, TupleDivisonTest) {
@@ -209,4 +214,11 @@ TEST(TupleTest, TupleCrossProductTest) {
     ASSERT_TRUE(vector1.CrossProduct(vector2) == Vector(-1,2,-1));
     ASSERT_TRUE(vector2.CrossProduct(vector1) == Vector(1,-2,1));
     ASSERT_FALSE(vector2.CrossProduct(vector1) == Vector(1,-2,6));
+}
+
+TEST(CannonTest, FireCannonTest) {
+    Cannon test = Cannon();
+    Projectile ball = test.LoadCannon(Point(0, 1, 0), Vector(1, 1, 0) * 10.0f);
+    Environment env = Environment(Vector(0, -0.1, 0), Vector(-0.01, 0, 0));
+    test.FireCannon(ball, env);
 }
