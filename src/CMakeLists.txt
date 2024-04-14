@@ -2,6 +2,9 @@
 set(SOURCE_FILES
     tuple.cpp
     math_functions.cpp
+    projectile.cpp
+    environment.cpp
+    cannon.cpp
 )
 
 # Create executable
